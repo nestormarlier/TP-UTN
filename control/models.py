@@ -57,24 +57,14 @@ class Categoria(models.Model):
         return item
 
 class Operario(models.Model):
-    legajo = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=20)
-    apellido = models.CharField(max_length=20)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    created = models.DateTimeField(
-        verbose_name='Fecha de alta', auto_now=True, db_column='creado')
-    modified = models.DateTimeField(
-        verbose_name='Fecha modificado', auto_now=True, db_column='modificado')
-    activo = models.BooleanField(verbose_name='Operario Activo', default=True)
-    delete = models.DateField(verbose_name='Fecha baja', null=True,
-                              blank=True)  # PUEDE ALMACENAR VALORES EN NULO SI SIGUE ACTIVO
 
     def __str__(self):
-        return str(self.legajo) + ' - ' + self.nombre + ' - ' + self.apellido + ' - ' + str(self.categoria)
+        return str(self.usuario) + ' - ' + str(self.categoria)
 
     class Meta:
         db_table = 'operario'
-        ordering = ['legajo']
 
     def toJSON(self):
         item = model_to_dict(self)
