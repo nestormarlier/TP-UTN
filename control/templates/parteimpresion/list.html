@@ -1,0 +1,64 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 5%;">Id</th>
+        <th scope="col" style="width: 10%;">Maquinista</th>
+        <th scope="col" style="width: 10%;">Supervisor</th>
+        <th scope="col" style="width: 10%;">1er. Ayudante</th>
+        <th scope="col" style="width: 5%;">2do. Ayudante</th>
+        <th scope="col" style="width: 5%;">Ficha técnica</th>
+        <th scope="col" style="width: 5%;">Impresora</th>
+        <th scope="col" style="width: 5%;">Fecha creación</th>
+        <th scope="col" style="width: 5%;">Cambio</th>
+        <th scope="col" style="width: 5%;">Setup</th>
+        <th scope="col" style="width: 5%;">Producción</th>
+        <th scope="col" style="width: 5%;">Metros registro</th>
+        <th scope="col" style="width: 5%;">Kg. registro</th>
+        <th scope="col" style="width: 5%;">Metros producidos</th>
+        <th scope="col" style="width: 5%;">Kg. producidos</th>
+        <th scope="col" style="width: 10%;">Opciones</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+    {% for c in object_list %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.maquinista }}</td>
+            <td>{{ c.supervisor }}</td>
+            <td>{{ c.ayudante1ero }}</td>
+            <td>{{ c.ayudante2do }}</td>
+            <td>{{ c.fichaTecnica }}</td>
+            <td>{{ c.impresora }}</td>
+            <td>{{ c.create }}</td>
+            <td>
+                {% for cambio  in c.cambio.all  %}
+                    {{ cambio }} <hr>
+                {% endfor %}
+            </td>
+            <td>
+                {% for setup  in c.setup.all  %}
+                    {{ setup }} <hr> 
+                {% endfor %}
+            </td>
+            <td>
+                {% for produccion  in c.produccion.all  %}
+                    {{ produccion }} <hr> 
+                {% endfor %}
+            </td>
+            <td>{{ c.metros_registro }}</td>
+            <td>{{ c.kg_registro }}</td>
+            <td>{{ c.metros }}</td>
+            <td>{{ c.kg }}</td>
+            <td>
+                <button type="button" class="btn btn-warning btn-xs btn-flat">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
