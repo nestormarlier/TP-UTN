@@ -7,7 +7,6 @@ from django.forms import model_to_dict
 
 
 class FichaTecnica(models.Model):
-    #ficha_tecnica_id = models.AutoField(verbose_name='Ficha Técnica Id', primary_key=True)
     nombre = models.CharField(max_length=50, unique=True)
     active = models.BooleanField(
         verbose_name='Ficha Técnica Activo', default=True)
@@ -34,51 +33,28 @@ class FichaTecnica(models.Model):
         item = model_to_dict(self)
         return item
 
-class Categoria(models.Model):
-    #categoria_id = models.IntegerField(verbose_name='Código de categoria', primary_key=True)
-    nombre = models.CharField(max_length=30, unique=True)
-    id_jefe = models.IntegerField(verbose_name='Identificación Jefe')
+class CategoriasUsuario(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    CATEGORIA_CHOICES = [
+        ('SUPERVISOR', 'SUPERVISOR'),
+        ('MAQUINISTA', 'MAQUINISTA'),
+        ('1ER AYUDANTE', '1ER AYUDANTE'),
+        ('2DO AYUDANTE', '2DO AYUDANTE'),
+        ('3ER AYUDANTE', '3ER AYUDANTE'),
+    ]
 
-    created = models.DateTimeField(
-        verbose_name='Fecha de alta', auto_now=True, db_column='creado')
-    modified = models.DateTimeField(
-        verbose_name='Fecha modificado', auto_now=True, db_column='modificado')
+    categoria = models.TextField(choices=CATEGORIA_CHOICES)
 
     def __str__(self):
-        return self.nombre
+        return str(self.usuario.id) + ' - ' + self.usuario.username + ' - ' + self.categoria
 
     class Meta:
-        db_table = 'categoria'
+        db_table = 'categoriaUsuario'
         verbose_name = 'Categoría'
         verbose_name_plural = 'Categorías'
 
     def toJSON(self):
         item = model_to_dict(self)  # me permite conevertir mi entidad en diccionario , se pueden excludes ciertos
-        return item
-
-class Operario(models.Model):
-    legajo = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=20)
-    apellido = models.CharField(max_length=20)
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    created = models.DateTimeField(
-        verbose_name='Fecha de alta', auto_now=True, db_column='creado')
-    modified = models.DateTimeField(
-        verbose_name='Fecha modificado', auto_now=True, db_column='modificado')
-    activo = models.BooleanField(verbose_name='Operario Activo', default=True)
-    delete = models.DateField(verbose_name='Fecha baja', null=True,
-                              blank=True)  # PUEDE ALMACENAR VALORES EN NULO SI SIGUE ACTIVO
-
-    def __str__(self):
-        return str(self.legajo) + ' - ' + self.nombre + ' - ' + self.apellido + ' - ' + str(self.categoria)
-
-    class Meta:
-        db_table = 'operario'
-        ordering = ['legajo']
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['categoria'] = [model_to_dict(c) for c in self.categoria.all()]
         return item
 
 class Impresora(models.Model):
@@ -167,7 +143,6 @@ class CambioMecanico(models.Model):
         return item
 
 class Setup(models.Model):
-    #setup_id = models.AutoField(primary_key=True)
     create = models.DateTimeField(
         verbose_name='Fecha creación', null=True, blank=True, default=datetime.datetime.now)
     parada = models.ForeignKey(
@@ -208,13 +183,13 @@ class Produccion(models.Model):
 
 class ParteImpresion(models.Model):
     #parte_id = models.AutoField(verbose_name='Orden impresión', primary_key=True)
-    maquinista = models.ForeignKey(Operario, verbose_name='Maquinista', on_delete=models.DO_NOTHING,
+    maquinista = models.ForeignKey(CategoriasUsuario, verbose_name='Maquinista', on_delete=models.DO_NOTHING,
                                    related_name='maquinista', db_column='maquinista')
-    supervisor = models.ForeignKey(Operario, verbose_name='Supervisor', on_delete=models.DO_NOTHING,
+    supervisor = models.ForeignKey(CategoriasUsuario, verbose_name='Supervisor', on_delete=models.DO_NOTHING,
                                    related_name='supervisor', db_column='supervisor')
-    ayudante1ero = models.ForeignKey(Operario, verbose_name='Primer ayudante', on_delete=models.DO_NOTHING,
+    ayudante1ero = models.ForeignKey(CategoriasUsuario, verbose_name='Primer ayudante', on_delete=models.DO_NOTHING,
                                      related_name='ayudante1er', db_column='ayudante1er')
-    ayudante2do = models.ForeignKey(Operario, verbose_name='Segundo ayudante', on_delete=models.DO_NOTHING,
+    ayudante2do = models.ForeignKey(CategoriasUsuario, verbose_name='Segundo ayudante', on_delete=models.DO_NOTHING,
                                     related_name='ayudante2do', db_column='ayudante2do')
     fichaTecnica = models.ForeignKey(FichaTecnica, on_delete=models.CASCADE)
     impresora = models.ForeignKey(Impresora, on_delete=models.CASCADE)

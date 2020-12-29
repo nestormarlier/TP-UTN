@@ -1,0 +1,83 @@
+{% extends 'body.html' %}
+
+{% block content %}
+<form method="post" action=".">
+    <div class="card card-default">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+            <input type="hidden" name="accion" value="{{accion}}">
+
+            {% if form.errors %}
+            <!-- <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Atención! Ha ocurrido un error al querer guardar</h5>
+                <ul>
+                {% for field in form  %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>                      
+                    {% endfor %}  
+                {% endfor %}
+                </ul> -->
+        </div>
+        {% endif %}
+
+        {% for field in form.visible_fields  %}
+        <div class="form-group">
+            <label for="email">{{ field.label }}:</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="card-footer">
+        <button type="submit" value="Submit" class="btn btn-primary btn-flat">
+            <i class="fas fa-save"></i> Guardar registro
+        </button>
+    </div>
+    </div>
+</form>
+<script>
+    {% if form.errors %}
+    var errores = '';
+    {% for field in form %}
+    {% for error in field.errors %}
+    errores += '{{ error }}\n';
+    {% endfor %}
+    Swal.fire({
+        icon: 'error',
+        title: 'Atención ha ocurrido un error',
+        text: errores
+    })
+    {% endfor %}
+    {% endif %}
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        // alert('no se va'); verifico que funcione el preventDefault para que no guarde el registro automaticamente
+        var parametros = $(this).serializeArray();
+        //console.log(parametros); //para verificar que estoy enviando bien los parametros
+        
+        $.ajax({
+            url: '{% url 'category_create' %}',
+            type: 'POST',
+            data: parametros,
+            dataType: 'json'
+        }).done(function (data) {
+            console.log(data);
+            if(!data.hasOwnProperty('error')){
+                location.href = '{{ list_url }}';
+                return false;
+            }
+            mensaje_error(data.error)
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+
+        })
+    })
+</script>
+{% endblock %}

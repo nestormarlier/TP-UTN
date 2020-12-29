@@ -39,7 +39,7 @@ class FichaTecnicaListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Fichas Técnicas'
         context['entidad'] = 'Ficha técnica'
-        context['create_url'] = reverse_lazy('erp:fichatecnica_create')
+        context['create_url'] = reverse_lazy('fichatecnica_create')
         
         return context
 
@@ -47,7 +47,7 @@ class FichaTecnicaCreateView(CreateView):
         model = FichaTecnica
         form_class = FichaTecnicaForm
         template_name = 'fichatecnica/create.html'
-        success_url = reverse_lazy('erp:fichatecnica_list')
+        success_url = reverse_lazy('fichatecnica_list')
 
         def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)

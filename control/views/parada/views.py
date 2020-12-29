@@ -27,14 +27,14 @@ class ParadaListView(ListView):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Listado de paradas'
         context['entidad'] = 'Parada de máquina'
-        context['create_url']= reverse_lazy('erp:parada_create')
+        context['create_url']= reverse_lazy('parada_create')
         return context
     
 class ParadaCreateView(CreateView):    
     model = Parada
     template_name = "parada/create.html"
     form_class = ParadaForm
-    success_url = reverse_lazy('erp:parada_list')
+    success_url = reverse_lazy('parada_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

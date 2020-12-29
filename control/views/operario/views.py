@@ -30,7 +30,7 @@ class OperarioListView(ListView):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Listado de operarios'
         context['entidad'] = 'Operario'
-        context['create_url'] = reverse_lazy('erp:operario_create')
+        context['create_url'] = reverse_lazy('operario_create')
         return context
 
 
@@ -38,7 +38,7 @@ class OperarioCreateView(CreateView):
     model = Operario
     template_name = "operario/create.html"
     form_class = OperarioForm
-    success_url = reverse_lazy('erp:operario_list')
+    success_url = reverse_lazy('operario_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

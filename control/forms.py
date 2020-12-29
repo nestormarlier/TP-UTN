@@ -1,31 +1,31 @@
-from control.models import Categoria, FichaTecnica, Operario, Impresora, Parada, CambioMecanico
+from control.models import FichaTecnica, CategoriasUsuario, Impresora, Parada, CambioMecanico
 from django.forms import *
 
 from django.contrib.admin import widgets
 
-class CategoriaForm(ModelForm):
-    def __init__(self,*args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for form in self.visible_fields():
-            form.field.widget.attrs['class']= 'form-control'
-            form.field.widget.attrs['autocomplete'] = 'off'
-        self.fields['nombre'].widget.attrs['autofocus']= True
-    class Meta:
-        model = Categoria
-        fields = ['id', 'nombre', 'id_jefe']
-        exclude = ['created', 'modified']
-        widgets = {
-            'nombre': TextInput(
-                attrs={
-                    'placeholder': 'Ingrese nombre'
-                }
-            ),
-            'id_jefe': TextInput(
-                attrs={
-                    'placeholder': 'Ingrese identificacion del jefe'
-                }
-            )
-        }
+# class CategoriaForm(ModelForm):
+#     def __init__(self,*args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         for form in self.visible_fields():
+#             form.field.widget.attrs['class']= 'form-control'
+#             form.field.widget.attrs['autocomplete'] = 'off'
+#         self.fields['nombre'].widget.attrs['autofocus']= True
+#     class Meta:
+#         model = Categoria
+#         fields = ['id', 'nombre', 'id_jefe']
+#         exclude = ['created', 'modified']
+#         widgets = {
+#             'nombre': TextInput(
+#                 attrs={
+#                     'placeholder': 'Ingrese nombre'
+#                 }
+#             ),
+#             'id_jefe': TextInput(
+#                 attrs={
+#                     'placeholder': 'Ingrese identificacion del jefe'
+#                 }
+#             )
+#         }
 
 class FichaTecnicaForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -47,7 +47,7 @@ class FichaTecnicaForm(ModelForm):
             )
         }
 
-class OperarioForm(ModelForm):
+class CategoriasUsuarioForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for form in self.visible_fields():
@@ -55,7 +55,7 @@ class OperarioForm(ModelForm):
             form.field.widget.attrs['autocomplete']= 'off'
         self.fields['legajo'].widget.attrs['autofocus']=True
     class Meta:
-        model = Operario
+        model = CategoriasUsuario
         fields = '__all__'
         exclude = ['activo','modified','delete']
 

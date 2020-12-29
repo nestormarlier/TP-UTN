@@ -15,7 +15,7 @@ class ProduccionAdmin(admin.ModelAdmin):
 
 admin.site.register(FichaTecnica)
 
-mis_modelos = Categoria, Operario
+mis_modelos = CategoriasUsuario
 admin.site.register(CambioMecanico, CambioMecanicoAdmin)
 admin.site.register(Parada)
 admin.site.register(mis_modelos)

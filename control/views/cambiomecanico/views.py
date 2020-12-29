@@ -26,7 +26,7 @@ class CambioMecanicoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Listado de cambio mecánicos asignados a un parte de impresión'
-        context['create_url'] = reverse_lazy('erp:cambiomecanico_create')
+        context['create_url'] = reverse_lazy('cambiomecanico_create')
         context["entidad"] = 'Cambio Mecánico'
         return context
 
@@ -34,7 +34,7 @@ class CambioMecanicoCreateView(CreateView):
     model = CambioMecanico
     template_name = "cambiomecanico/create.html"
     form_class = CambioMecanicoForm
-    success_url = reverse_lazy('erp:cambiomecanico_list')
+    success_url = reverse_lazy('cambiomecanico_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -28,14 +28,14 @@ class ImpresoraListView(ListView):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Listado de impresoras'
         context['entidad'] = 'Impresora'
-        context['create_url'] = reverse_lazy('erp:impresora_create')
+        context['create_url'] = reverse_lazy('impresora_create')
         return context
 
 class ImpresoraCreateView(CreateView):
     model = Impresora
     form_class = ImpresoraForm
     template_name = "impresora/create.html"
-    success_url = reverse_lazy('erp:impresora_list')
+    success_url = reverse_lazy('impresora_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
