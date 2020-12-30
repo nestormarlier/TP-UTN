@@ -12,7 +12,7 @@ class FichaTecnica(models.Model):
         verbose_name='Ficha Técnica Activo', default=True)
 
     created = models.DateTimeField(
-        verbose_name='Fecha de alta', auto_now=True, db_column='creado')
+        verbose_name='Fecha de alta', auto_now_add=True, db_column='creado')
     modified = models.DateTimeField(
         verbose_name='Fecha modificado', auto_now=True, db_column='modificado')
 
@@ -59,16 +59,15 @@ class CategoriasUsuario(models.Model):
 
 class Impresora(models.Model):
     impresora_id = models.IntegerField(primary_key=True, verbose_name='Número')
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=30, unique= True)
 
     created = models.DateTimeField(
-        verbose_name='Fecha de alta', auto_now=True, db_column='creado')
+        verbose_name='Fecha de alta', auto_now_add=True, db_column='creado')
     modified = models.DateTimeField(
         verbose_name='Fecha modificado', auto_now=True, db_column='modificado')
 
     activo = models.BooleanField(verbose_name='Impresora Activa', default=True)
     # EN NULO SI SIGUE ACTIVO
-    delete = models.DateTimeField(verbose_name='Fecha baja', null=True, blank=True)
 
     def __str__(self):
         return "%s" % self.nombre
@@ -97,7 +96,7 @@ class Parada(models.Model):
     nombre = models.CharField(max_length=40, unique=True)
 
     created = models.DateTimeField(
-        verbose_name='Fecha de alta', auto_now=True, db_column='creado')
+        verbose_name='Fecha de alta', auto_now_add=True, db_column='creado')
     modified = models.DateTimeField(
         verbose_name='Fecha modificado', auto_now=True, db_column='modificado')
 
@@ -193,7 +192,7 @@ class ParteImpresion(models.Model):
                                     related_name='ayudante2do', db_column='ayudante2do')
     fichaTecnica = models.ForeignKey(FichaTecnica, on_delete=models.CASCADE)
     impresora = models.ForeignKey(Impresora, on_delete=models.CASCADE)
-    create = models.DateField(verbose_name='Fecha creación', auto_now=True)
+    create = models.DateField(verbose_name='Fecha creación', auto_now_add=True)
     cambio = models.ManyToManyField(CambioMecanico, verbose_name="Cambio Mecánico", related_name='cambio',
                                     db_column='cambio_id', blank=True)
     setup = models.ManyToManyField(Setup, verbose_name='RM AC AP', related_name='setup', db_column='setup',

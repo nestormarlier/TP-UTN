@@ -62,7 +62,7 @@
         //console.log(parametros); //para verificar que estoy enviando bien los parametros
         
         $.ajax({
-            url: '{% url 'impresora_create' %}',
+            url: window.location.pathname,
             type: 'POST',
             data: parametros,
             dataType: 'json'

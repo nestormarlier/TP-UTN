@@ -1,5 +1,5 @@
 from control.models import FichaTecnica, CategoriasUsuario, Impresora, Parada, CambioMecanico
-from django.forms import *
+from django.forms import ModelForm, TextInput, NumberInput, Select
 
 from django.contrib.admin import widgets
 
