@@ -1,4 +1,4 @@
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
@@ -33,7 +33,6 @@ class ImpresoraListView(ListView):
         context['create_url'] = reverse_lazy('impresora_create')
         return context
 
-
 class ImpresoraCreateView(CreateView):
     model = Impresora
     form_class = ImpresoraForm
@@ -63,7 +62,6 @@ class ImpresoraCreateView(CreateView):
         context['accion'] = 'add'
         return context
 
-
 class ImpresoraUpdateView(UpdateView):
     model = Impresora
     form_class = ImpresoraForm
@@ -71,7 +69,8 @@ class ImpresoraUpdateView(UpdateView):
     success_url = reverse_lazy('impresora_list')
 
     def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object() # para que el funcionamiento no se altere y pueda utilizar el object en POST
+        self.object = self.get_object() 
+        # para que el funcionamiento no se altere y para que funcione el POST como edit y no como create
         return super().dispatch(request, *args, **kwargs)
     
 
@@ -94,4 +93,17 @@ class ImpresoraUpdateView(UpdateView):
         context['entidad'] = 'Impresora'
         context['list_url'] = self.success_url
         context['accion'] = 'edit'
+        return context
+
+class ImpresoraDeleteView(DeleteView):
+    model = Impresora
+    template_name = 'impresora/delete.html'
+    success_url = reverse_lazy('impresora_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Eliminación de una impresora'
+        context['entidad'] = 'Impresora'
+        context['list_url'] = self.success_url
+        # context['accion'] = 'delete' no usare ajax para la baja
         return context

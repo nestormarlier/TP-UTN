@@ -20,7 +20,6 @@ urlpatterns = [
     path('produccion/list/', ProduccionListView.as_view(), name='produccion_list'),
     path('parteimpresion/list/', ParteImpresionListView.as_view(), name="parteimpresion_list"),
     ### ALTAS ###
-    
     path('categoria/alta/', CategoriasUsuarioCreateView.as_view(), name="categoria_create"),
     path('fichatecnica/alta/', FichaTecnicaCreateView.as_view(), name="fichatecnica_create"),
     path('impresora/alta/', ImpresoraCreateView.as_view(), name='impresora_create'),
@@ -28,4 +27,6 @@ urlpatterns = [
     path('cambiomecanico/alta/', CambioMecanicoCreateView.as_view(), name='cambiomecanico_create'),
     ### MODIFICACIONES ###
     path('impresora/modif/<int:pk>/', ImpresoraUpdateView.as_view(), name='impresora_edit'),
+    ### BAJAS ###
+    path('impresora/baja/<int:pk>/', ImpresoraDeleteView.as_view(), name='impresora_delete'),
 ]
