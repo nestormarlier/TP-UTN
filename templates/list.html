@@ -50,7 +50,7 @@
 
             $('.btnTest').on('click', function () {
                 $.ajax({
-                    url: '{% url 'operario_list' %}',
+                    url: '{% url 'impresora_list' %}',
                     type: 'POST',
                     data: {legajo: 940},
                     dataType: 'json'

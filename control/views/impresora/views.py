@@ -36,11 +36,25 @@ class ImpresoraCreateView(CreateView):
     form_class = ImpresoraForm
     template_name = "impresora/create.html"
     success_url = reverse_lazy('impresora_list')
+    
+    def post(self,request, *args , **kwargs):
+        data = {}
+        try:
+            action = request.POST['accion']
+            if action == 'add':
+                #form = CategoryForm(request.POST)
+                form = self.get_form() #con esta propiedad obtengo todos los datos enviado, inclusive si son imagenes
+                data = form.save()
+            else:
+                data['error'] = 'No ha ingresado ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Creación de impresoras'
         context['entidad'] = 'Impresora'
         context['list_url'] = self.success_url
+        context['accion'] = 'add'
         return context
-    
