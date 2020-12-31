@@ -5,7 +5,14 @@
     <div class="card card-default">
         <div class="card-header">
             <h3 class="card-title">
-                <i class="fas fa-plus"></i>
+
+                {% if accion == 'add' %}
+                    <i class="fas fa-plus"></i>
+                {% else %}
+                    <i class="fas fa-edit"></i>
+                {% endif %}
+
+
                 {{ title }}
             </h3>
         </div>
@@ -27,7 +34,7 @@
         </div>
         {% endif %}
 
-        {% for field in form.visible_fields  %}
+        {% for field in form.visible_fields %}
         <div class="form-group">
             <label for="email">{{ field.label }}:</label>
             {{ field }}
@@ -60,7 +67,7 @@
         // alert('no se va'); verifico que funcione el preventDefault para que no guarde el registro automaticamente
         var parametros = $(this).serializeArray();
         //console.log(parametros); //para verificar que estoy enviando bien los parametros
-        
+
         $.ajax({
             url: window.location.pathname,
             type: 'POST',
@@ -68,7 +75,7 @@
             dataType: 'json'
         }).done(function (data) {
             console.log(data);
-            if(!data.hasOwnProperty('error')){
+            if (!data.hasOwnProperty('error')) {
                 location.href = '{{ list_url }}';
                 return false;
             }
