@@ -10,8 +10,6 @@ from control.views.produccion.views import *
 
 
 urlpatterns = [
-    path('fichatecnicaxfuncion/list/', fichatecnica_list, name='fichatecnica_list_x_funcion'),
-    path('fichatecnica/list/', FichaTecnicaListView.as_view(), name='fichatecnica_list'),
     path('categoria/list/', CategoriasUsuarioListView.as_view(), name='categoria_list'),
     path('impresora/list/', ImpresoraListView.as_view(), name="impresora_list"),
     path('parada/list/', ParadaListView.as_view(), name='parada_list'),
