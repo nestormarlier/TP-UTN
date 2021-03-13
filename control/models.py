@@ -72,13 +72,13 @@ class Impresora(models.Model):
     def __str__(self):
         return "%s" % self.nombre
 
-    class Meta:
-        db_table = 'impresora'
-        ordering = ['impresora_id']
-
     def toJSON(self):
         item = model_to_dict(self)
         return item
+
+    class Meta:
+        db_table = 'impresora'
+        ordering = ['impresora_id']
 
 class Parada(models.Model):
     NOMBRE_CHOICES = [

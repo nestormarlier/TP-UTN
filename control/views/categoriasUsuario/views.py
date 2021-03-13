@@ -22,16 +22,15 @@ class CategoriasUsuarioListView(ListView):
         data = {}
         try:
             action = request.POST['accion']
-            if action == 'add':
-                #form = CategoryForm(request.POST)
-                # con esta propiedad obtengo todos los datos enviado, inclusive si son imagenes
-                form = self.get_form()
-                data = form.save()
+            if action == 'searchdata':
+                data = []
+                for i in Impresora.objects.all():
+                    data.append(i.toJSON())
             else:
-                data['error'] = 'No ha ingresado ninguna opción'
+                data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data)
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

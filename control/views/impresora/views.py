@@ -18,13 +18,33 @@ class ImpresoraListView(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        data = {}
+        data = {}        
         try:
-            data = Impresora.objects.get(
-                pk=request.POST['impresora_id']).toJSON()
+            action = request.POST['accion']
+            if action == 'buscar':
+                data = []
+                for i in Impresora.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data)
+        return JsonResponse(data, safe=False)
+    # def post(self, request, *args, **kwargs):
+    #     data = {}
+    #     try:
+    #         # data = Impresora.objects.get(
+    #         #     pk=request.POST['impresora_id']).toJSON()
+    #         action = request.POST['accion']
+    #         if action == 'buscardatos':
+    #             data = []
+    #             for i in Impresora.objects.all():
+    #                 data.append(i.toJSON())
+    #         else:
+    #             data['error'] = 'Ha ocurrido un error'
+    #     except Exception as e:
+    #         data['error'] = str(e)
+    #     return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
