@@ -1,10 +1,10 @@
-from control.models import CambioMecanico
+from apps.control.models import CambioMecanico
 from django.views.generic import ListView, CreateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
-from control.forms import CambioMecanicoForm
+from apps.control.forms import CambioMecanicoForm
 from django.urls import reverse_lazy
 
 class CambioMecanicoListView(ListView):

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from control.models import *
+from apps.control.models import *
 
 class CambioMecanicoAdmin(admin.ModelAdmin):
     fields = ['create', 'parada', 'fecha_fin']

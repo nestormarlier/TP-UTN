@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 from django.urls import reverse_lazy
-from control.models import Impresora
-from control.forms import ImpresoraForm
+from apps.control.models import Impresora
+from apps.control.forms import ImpresoraForm
 
 
 class ImpresoraListView(ListView):

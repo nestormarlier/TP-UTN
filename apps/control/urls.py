@@ -1,12 +1,12 @@
 from django.urls import path
-from control.views.fichatecnica.views import *
-from control.views.categoriasUsuario.views import *
-from control.views.impresora.views import *
-from control.views.parteimpresion.views import *
-from control.views.parada.views import *
-from control.views.cambiomecanico.views import *
-from control.views.setup.views import *
-from control.views.produccion.views import *
+from apps.control.views.fichatecnica.views import *
+from apps.control.views.categoriasUsuario.views import *
+from apps.control.views.impresora.views import *
+from apps.control.views.parteimpresion.views import *
+from apps.control.views.parada.views import *
+from apps.control.views.cambiomecanico.views import *
+from apps.control.views.setup.views import *
+from apps.control.views.produccion.views import *
 
 
 urlpatterns = [

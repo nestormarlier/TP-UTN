@@ -1,10 +1,10 @@
-from control.models import Parada
+from apps.control.models import Parada
 from django.views.generic import ListView, CreateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from django.http import JsonResponse
-from control.forms import ParadaForm
+from apps.control.forms import ParadaForm
 from django.urls import reverse_lazy
  
 class ParadaListView(ListView):

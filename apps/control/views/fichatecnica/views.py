@@ -4,11 +4,11 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.views.generic import ListView, CreateView
 from django.utils.decorators import method_decorator
-from control.models import FichaTecnica
+from apps.control.models import FichaTecnica
 
 from django.urls import reverse_lazy
 
-from control.forms import FichaTecnicaForm
+from apps.control.forms import FichaTecnicaForm
 
 
 def fichatecnica_list(request):

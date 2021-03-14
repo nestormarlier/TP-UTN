@@ -1,13 +1,14 @@
-from control.models import CategoriasUsuario
-from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
+from apps.control.models import CategoriasUsuario
+from django.http import JsonResponse, HttpResponseRedirect
+
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView
 from django.utils.decorators import method_decorator
 
 from django.urls import reverse_lazy
 
-from control.forms import CategoriasUsuarioForm
+from apps.control.forms import CategoriasUsuarioForm
 
 
 class CategoriasUsuarioListView(ListView):
