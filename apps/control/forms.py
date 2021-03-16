@@ -1,4 +1,5 @@
-from apps.control.models import FichaTecnica, CategoriasUsuario, Impresora, Parada, CambioMecanico
+from apps.control.models import FichaTecnica, Impresora, Parada, CambioMecanico
+from apps.user.models import User
 from django.forms import ModelForm, TextInput, NumberInput, Select
 
 from django.contrib.admin import widgets
@@ -23,21 +24,6 @@ class FichaTecnicaForm(ModelForm):
                 }
             )
         }
-
-
-class CategoriasUsuarioForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for form in self.visible_fields():
-            form.field.widget.attrs['class'] = 'form-control'
-            form.field.widget.attrs['autocomplete'] = 'off'
-        #self.fields['usuario_id'].widget.attrs['autofocus']=True
-
-    class Meta:
-        model = CategoriasUsuario
-        fields = '__all__'
-        exclude = ['activo', 'modified', 'delete']
-
 
 class ImpresoraForm(ModelForm):
     def __init__(self, *args, **kwargs):
