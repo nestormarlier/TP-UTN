@@ -4,7 +4,7 @@
     <div class="container">
         <a href='{% url 'impresora_list' %}' class="navbar-brand">
             <i class="fas fa-wind fa-lg">Waira</i>
-            <span class="brand-text font-weight-light">Sistema de control de producción</span>
+            <!-- <span class="brand-text font-weight-light">Sistema de control de producción</span> -->
         </a>
         <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,13 +13,13 @@
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="{% url 'admin:index' %}" class="nav-link"><i class="fas fa-user-lock"></i> Administrador Django</a>
+                    <a href="{% url 'admin:index' %}" class="nav-link"><i class="fas fa-user-lock"></i> Administración del sistema</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        class="nav-link dropdown-toggle"><i class="fas fa-folder-open"></i> Mantenimientos</a>
                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                        <li><a href='{% url 'categoria_list' %}' class="dropdown-item"><i class="fas fa-truck-loading"></i> Categorías</a></li>
+                        <li><a href='{% url 'parteimpresion_list' %}' class="dropdown-item"><i class="fas fa-truck-loading"></i> Partes de impresión</a></li>
                         <li><a href='{% url 'parada_list' %}' class="dropdown-item"><i class="fas fa-table"></i> Paradas de máquina</a></li>
                         <li><a href='{% url 'impresora_list' %}' class="dropdown-item"><i class="fas fa-users-cog"></i> Impresoras</a></li>
                     </ul>

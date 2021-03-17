@@ -20,6 +20,7 @@ urlpatterns = [
     path('impresora/alta/', ImpresoraCreateView.as_view(), name='impresora_create'),
     path('parada/alta/', ParadaCreateView.as_view(), name='parada_create'),
     path('cambiomecanico/alta/', CambioMecanicoCreateView.as_view(), name='cambiomecanico_create'),
+    path('parteimpresion/alta/', ParteImpresionCreateView.as_view(), name='parteimpresion_create'),
     ### MODIFICACIONES ###
     path('impresora/modif/<int:pk>/', ImpresoraUpdateView.as_view(), name='impresora_edit'),
     ### BAJAS ###

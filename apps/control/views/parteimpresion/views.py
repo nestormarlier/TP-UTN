@@ -1,8 +1,11 @@
 from apps.control.models import ParteImpresion
-from django.views.generic.list import ListView
+from django.views.generic import ListView, CreateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+
 from django.http import JsonResponse
+from apps.control.forms import ParteImpresionForm
+from django.urls import reverse_lazy
 
 class ParteImpresionListView(ListView):
     model = ParteImpresion
@@ -23,5 +26,19 @@ class ParteImpresionListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de partes de impresión'
+        return context
+
+class ParteImpresionCreateView(CreateView):
+    model = ParteImpresion
+    template_name = "parteimpresion/create.html"
+    form_class = ParteImpresionForm
+    success_url = reverse_lazy('parteimpresion_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Creación parte de impresión'
+        context['entidad'] = 'Parte de impresión'
+        context['list_url'] = self.success_url
+        context['accion'] = 'add'
         return context
     

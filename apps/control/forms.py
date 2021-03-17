@@ -1,4 +1,4 @@
-from apps.control.models import FichaTecnica, Impresora, Parada, CambioMecanico
+from apps.control.models import FichaTecnica, Impresora, Parada, CambioMecanico, ParteImpresion
 from apps.user.models import User
 from django.forms import ModelForm, TextInput, NumberInput, Select
 
@@ -62,7 +62,6 @@ class ImpresoraForm(ModelForm):
             data['error'] = str(e)
         return(data)
 
-
 class ParadaForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -88,7 +87,6 @@ class ParadaForm(ModelForm):
             )
         }
 
-
 class CambioMecanicoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CambioMecanicoForm, self).__init__(*args, **kwargs)
@@ -103,3 +101,30 @@ class CambioMecanicoForm(ModelForm):
         model = CambioMecanico
         fields = '__all__'
         exclude = ['id', 'modified']
+
+class ParteImpresionForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.visible_fields():
+            form.field.widget.attrs['class'] = 'form-control'
+            form.field.widget.attrs['autocomplete'] = 'off'
+            # self.fields['create'].widget.attrs['readonly'] = True
+            # self.fields['fecha_fin'].widget = widgets.AdminSplitDateTime()
+            # self.fields['parada'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = ParteImpresion
+        fields = '__all__'
+        exclude = ['created', 'modified', 'activo', 'delete']
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return(data)
