@@ -115,7 +115,7 @@ class ParteImpresionForm(ModelForm):
     class Meta:
         model = ParteImpresion
         fields = '__all__'
-        exclude = ['created', 'modified', 'activo', 'delete']
+        # exclude = ['created', 'modified', 'activo', 'delete']
 
     def save(self, commit=True):
         data = {}

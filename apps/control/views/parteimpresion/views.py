@@ -25,15 +25,32 @@ class ParteImpresionListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de partes de impresión'
+        context["title"] = 'Listado de partes'
+        context['entidad'] = 'Partes'
+        context['create_url'] = reverse_lazy('parteimpresion_create')
         return context
 
 class ParteImpresionCreateView(CreateView):
     model = ParteImpresion
-    template_name = "parteimpresion/create.html"
     form_class = ParteImpresionForm
+    template_name = "parteimpresion/create.html" 
     success_url = reverse_lazy('parteimpresion_list')
 
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['accion']
+            if action == 'add':
+                #form = CategoryForm(request.POST)
+                # con esta propiedad obtengo todos los datos enviado, inclusive si son imagenes
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No ha ingresado ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Creación parte de impresión'
