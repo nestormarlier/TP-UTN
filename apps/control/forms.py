@@ -1,6 +1,6 @@
 from apps.control.models import FichaTecnica, Impresora, Parada, CambioMecanico, ParteImpresion
 from apps.user.models import User
-from django.forms import ModelForm, TextInput, NumberInput, Select
+from django.forms import ModelForm, TextInput, NumberInput, Select, SelectMultiple
 
 from django.contrib.admin import widgets
 
@@ -116,6 +116,20 @@ class ParteImpresionForm(ModelForm):
         model = ParteImpresion
         fields = '__all__'
         # exclude = ['created', 'modified', 'activo', 'delete']
+        widgets = {
+            'maquinista': Select(
+                attrs = {
+                    'class':'form-control'
+                }
+            )
+        }
+        widgets = {
+            'cambio': SelectMultiple(
+                attrs = {
+                    'class':'form-control'
+                }
+            )
+        }
 
     def save(self, commit=True):
         data = {}
