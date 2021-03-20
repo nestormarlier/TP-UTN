@@ -157,6 +157,44 @@ class Produccion(models.Model):
         item = model_to_dict(self)
         return item
 
+class ObservacionesGles(models.Model):
+        #produccion_id = models.AutoField(primary_key=True)
+    create = models.DateTimeField(
+        verbose_name='Fecha de creación', null=True, blank=True, default=datetime.datetime.now)
+    observacion = models.TextField(verbose_name='Observaciones generales', null=True, blank=True)
+    fecha_fin = models.DateTimeField(verbose_name='Fin observación')
+
+    class Meta:
+        verbose_name = 'Observación general'
+        verbose_name_plural = 'Observaciones generales'
+        db_table = 'observaciones_gles'
+
+    def __str__(self):
+        return str(self.observacion)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+class ObsMantenimiento(models.Model):
+    #produccion_id = models.AutoField(primary_key=True)
+    mecanico = models.ForeignKey(User, verbose_name='Mecánico', on_delete=models.DO_NOTHING, related_name='mecanico', db_column='mecanico')
+    create = models.DateTimeField(
+        verbose_name='Fecha de creación', null=True, blank=True, default=datetime.datetime.now)
+    observacion = models.TextField(verbose_name='Observaciones del mecánico', null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Observación mantenimiento'
+        verbose_name_plural = 'Observaciones mantenimiento'
+        db_table = 'observaciones_mant'
+
+    def __str__(self):
+        return str(self.observacion)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
 class ParteImpresion(models.Model):
     #parte_id = models.AutoField(verbose_name='Orden impresión', primary_key=True)
     maquinista = models.ForeignKey(User, verbose_name='Maquinista', on_delete=models.DO_NOTHING,
@@ -176,6 +214,9 @@ class ParteImpresion(models.Model):
                                    blank=True)
     produccion = models.ManyToManyField(Produccion, verbose_name='Producción', related_name='produccion',
                                         db_column='produccion', blank=True)
+    observacion_gral = models.ManyToManyField(ObservacionesGles, verbose_name = 'Observaciones generales', related_name= 'observacion_gral', db_column='obs_gles', blank=True)
+    observacion_mant = models.ManyToManyField(ObsMantenimiento, verbose_name='Observaciones de mantenimiento', related_name='observacion_mant', db_column='obs_mant', blank=True)
+
     metros_registro = models.IntegerField(verbose_name='Metros registro')
     kg_registro = models.IntegerField(verbose_name='Kg. registro')
     metros = models.IntegerField(verbose_name='Metros producidos')
