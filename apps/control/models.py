@@ -205,8 +205,6 @@ class ParteImpresion(models.Model):
                                      related_name='ayudante1er', db_column='ayudante1er')
     ayudante2do = models.ForeignKey(User, verbose_name='Segundo ayudante', on_delete=models.DO_NOTHING,
                                     related_name='ayudante2do', db_column='ayudante2do')
-    fichaTecnica = models.ForeignKey(FichaTecnica, on_delete=models.CASCADE)
-    impresora = models.ForeignKey(Impresora, on_delete=models.CASCADE)
     create = models.DateField(verbose_name='Fecha creación', auto_now_add=True)
     cambio = models.ManyToManyField(CambioMecanico, verbose_name="Cambio Mecánico", related_name='cambio',
                                     db_column='cambio_id', blank=True)
@@ -243,3 +241,18 @@ class ParteImpresion(models.Model):
         item['produccion'] = [model_to_dict(p) for p in self.produccion.all()]
         
         return item
+
+class OrdenesProduccion(models.Model):
+    create = models.DateField(verbose_name='Fecha creación', auto_now_add=True)
+    fichaTecnica = models.ForeignKey(FichaTecnica, on_delete=models.CASCADE)
+    impresora = models.ForeignKey(Impresora, on_delete=models.CASCADE)
+    kg_prod = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name="Kg. a producir")
+    metros_prod = models.IntegerField(verbose_name="Metros a producir")
+
+    class Meta:
+        verbose_name = 'Ordenes de producción'
+        verbose_name_plural = 'Ordenes de producción'
+        db_table = 'orden_produccion'
+    
+    def __str__(self):
+        return str(self.fichaTecnica) + ' - ' + str(self.impresora) + ' - ' + str(self.kg_prod)
