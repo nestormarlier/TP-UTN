@@ -195,8 +195,46 @@ class ObsMantenimiento(models.Model):
         item = model_to_dict(self)
         return item
 
+class PedidoVenta(models.Model):
+    create = models.DateField(verbose_name='Fecha creación', auto_now_add=True)
+    fecha_entrega = models.DateField(verbose_name="Fecha de entrega")
+    fichaTecnica = models.ForeignKey(FichaTecnica, on_delete=models.CASCADE)
+    kg_prod = models.DecimalField(default=0, max_digits=9, decimal_places=0, verbose_name="Kg. a producir")
+
+    class Meta:
+        verbose_name = 'Pedido de Venta'
+        verbose_name_plural = 'Pedidos de Venta'
+        db_table = 'pedido_venta'
+    
+    def __str__(self):
+        return 'Pedido de Venta Nro.' + str(self.id) + ' - ' + str(self.fichaTecnica) + ' - ' + str(self.kg_prod) + 'Kg.' + ' - ' + 'Fecha de entrega ' + str(self.fecha_entrega)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+class OrdenesProduccion(models.Model):
+    create = models.DateField(verbose_name='Fecha creación', auto_now_add=True)
+    pedido_venta = models.ForeignKey(PedidoVenta, on_delete = models.CASCADE)
+    impresora = models.ForeignKey(Impresora, on_delete=models.CASCADE)
+    
+    class Meta:
+        verbose_name = 'Ordenes de producción'
+        verbose_name_plural = 'Ordenes de producción'
+        db_table = 'orden_produccion'
+    
+    def __str__(self):
+        return 'Orden de Prod. Nro.' + str(self.id) + ' - ' + str(self.impresora) + ' - ' + str(self.pedido_venta)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
 class ParteImpresion(models.Model):
     #parte_id = models.AutoField(verbose_name='Orden impresión', primary_key=True)
+
+    ordenes = models.ForeignKey(OrdenesProduccion, on_delete=models.CASCADE)
+
     maquinista = models.ForeignKey(User, verbose_name='Maquinista', on_delete=models.DO_NOTHING,
                                    related_name='maquinista', db_column='maquinista')
     supervisor = models.ForeignKey(User, verbose_name='Supervisor', on_delete=models.DO_NOTHING,
@@ -206,6 +244,7 @@ class ParteImpresion(models.Model):
     ayudante2do = models.ForeignKey(User, verbose_name='Segundo ayudante', on_delete=models.DO_NOTHING,
                                     related_name='ayudante2do', db_column='ayudante2do')
     create = models.DateField(verbose_name='Fecha creación', auto_now_add=True)
+
     cambio = models.ManyToManyField(CambioMecanico, verbose_name="Cambio Mecánico", related_name='cambio',
                                     db_column='cambio_id', blank=True)
     setup = models.ManyToManyField(Setup, verbose_name='RM AC AP', related_name='setup', db_column='setup',
@@ -241,18 +280,3 @@ class ParteImpresion(models.Model):
         item['produccion'] = [model_to_dict(p) for p in self.produccion.all()]
         
         return item
-
-class OrdenesProduccion(models.Model):
-    create = models.DateField(verbose_name='Fecha creación', auto_now_add=True)
-    fichaTecnica = models.ForeignKey(FichaTecnica, on_delete=models.CASCADE)
-    impresora = models.ForeignKey(Impresora, on_delete=models.CASCADE)
-    kg_prod = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name="Kg. a producir")
-    metros_prod = models.IntegerField(verbose_name="Metros a producir")
-
-    class Meta:
-        verbose_name = 'Ordenes de producción'
-        verbose_name_plural = 'Ordenes de producción'
-        db_table = 'orden_produccion'
-    
-    def __str__(self):
-        return str(self.fichaTecnica) + ' - ' + str(self.impresora) + ' - ' + str(self.kg_prod)

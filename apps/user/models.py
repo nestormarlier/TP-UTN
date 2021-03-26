@@ -10,7 +10,7 @@ class User(AbstractUser):
         ('MAQUINISTA', 'MAQUINISTA'),
         ('1ER AYUDANTE', '1ER AYUDANTE'),
         ('2DO AYUDANTE', '2DO AYUDANTE'),
-        ('3ER AYUDANTE', '3ER AYUDANTE'),
+        ('MECANICO', 'MECÁNICO'),
     ]
 
     categoria = models.TextField(choices=CATEGORIA_CHOICES)
